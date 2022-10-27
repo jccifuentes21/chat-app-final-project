@@ -88,7 +88,7 @@ const Register = () => {
 					/>
 					<button type="submit">Create User</button>
 					<span>
-						Already have an account? <Link to="/login">Login</Link>
+						Already have account? <Link to="/login">SIGN IN</Link>
 					</span>
 				</form>
 			</FormContainer>
@@ -159,7 +159,7 @@ const FormContainer = styled.div`
       text-transform: uppercase;
       a {
         color: var(--secondary-color);
-        text-decoration: upercase;
+        text-decoration: none;
         font-weight: bold;
       }
     }
