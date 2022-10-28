@@ -66,47 +66,47 @@ const Register = () => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
 
-  return (
-    <>
-      <FormContainer>
-        <form onSubmit={(event) => handleSubmit(event)}>
-          <div className="brand">
-            <img src="" alt="" />
-            <h1>CHAT</h1>
-          </div>
-          <input
-            type="text"
-            placeholder="Username"
-            name="username"
-            onChange={(e) => handleChange(e)}
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            onChange={(e) => handleChange(e)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={(e) => handleChange(e)}
-          />
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            onChange={(e) => handleChange(e)}
-          />
-          <button type="submit">Create User</button>
-          <span>
-            Already have an account? <Link to="/login">Login</Link>
-          </span>
-        </form>
-      </FormContainer>
-      <ToastContainer />
-    </>
-  );
+	return (
+		<>
+			<FormContainer>
+				<form onSubmit={(event) => handleSubmit(event)}>
+					<div className="brand">
+						<img src="" alt="" />
+						<h1>CHAT</h1>
+					</div>
+					<input
+						type="text"
+						placeholder="Username"
+						name="username"
+						onChange={(e) => handleChange(e)}
+					/>
+					<input
+						type="email"
+						placeholder="Email"
+						name="email"
+						onChange={(e) => handleChange(e)}
+					/>
+					<input
+						type="password"
+						placeholder="Password"
+						name="password"
+						onChange={(e) => handleChange(e)}
+					/>
+					<input
+						type="password"
+						placeholder="Confirm Password"
+						name="confirmPassword"
+						onChange={(e) => handleChange(e)}
+					/>
+					<button type="submit">Create User</button>
+					<span>
+						Already have account? <Link to="/login">SIGN IN</Link>
+					</span>
+				</form>
+			</FormContainer>
+			<ToastContainer />
+		</>
+	);
 };
 
 const FormContainer = styled.div`
@@ -171,7 +171,7 @@ const FormContainer = styled.div`
       text-transform: uppercase;
       a {
         color: var(--secondary-color);
-        text-decoration: upercase;
+        text-decoration: none;
         font-weight: bold;
       }
     }
