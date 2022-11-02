@@ -27,7 +27,7 @@ const Chat = () => {
           const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
           setContacts(data.data);
         } else {
-          navigate(`/setAvatar/${currentUser._id}`);
+          navigate(`/setAvatar`);
         }
       }
     };
