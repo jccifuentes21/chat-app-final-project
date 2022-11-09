@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 // import logo from '../assets/logo.png'
 
-export default function Contacts({ contacts, currentUser, changeChat}) {
+export default function Contacts({ contacts, currentUser, changeChat }) {
 	const [currentUserName, setCurrentUserName] = useState(undefined);
 	const [currentUserImage, setCurrentUserImage] = useState(undefined);
 	const [currentSelected, setCurrentSelected] = useState(undefined);
@@ -13,9 +13,9 @@ export default function Contacts({ contacts, currentUser, changeChat}) {
 		}
 	}, [currentUser]);
 	const changeCurrentChat = (index, contact) => {
-        setCurrentSelected(index);
-        changeChat(contact);
-    };
+		setCurrentSelected(index);
+		changeChat(contact);
+	};
 
 	return (
 		<>
@@ -116,7 +116,6 @@ const Container = styled.div`
 			.username {
 				h4 {
 					color: white;
-                    
 				}
 			}
 		}
