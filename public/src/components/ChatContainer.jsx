@@ -1,8 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import Logout from "./Logout";
+import ChatInput from "./ChatInput";
+import Messages from "./Messages";
 
 export default function ChatContainer({ currentChat }) {
+	const handleSendMsg = async (msg) => {
+	alert(msg);
+	};
+
 	return (
 		<>
 			{currentChat && (
@@ -20,8 +26,8 @@ export default function ChatContainer({ currentChat }) {
 						</div>
                         <Logout />
 					</div>
-					<div className="chat-messages"></div>
-					<div className="chat-input"></div>
+					<Messages />
+					<ChatInput handleSendMsg={handleSendMsg} />
 				</Container>
 			)}
 		</>
@@ -35,13 +41,15 @@ padding-top: 1rem;
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
+  height: 5rem;
   .user-details {
     display: flex;
     align-items: center;
     gap: 1rem;
     .avatar {
       img {
-        height: 3rem;
+    	 height: 3rem;
+		 w
       }
     }
     .username {
