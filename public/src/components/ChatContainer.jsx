@@ -5,9 +5,7 @@ import ChatInput from "./ChatInput";
 import Messages from "./Messages";
 
 export default function ChatContainer({ currentChat }) {
-	const handleSendMsg = async (msg) => {
-	alert(msg);
-	};
+	const handleSendMsg = async (msg) => {};
 
 	return (
 		<>
@@ -24,7 +22,7 @@ export default function ChatContainer({ currentChat }) {
 								<h4>{currentChat.username}</h4>
 							</div>
 						</div>
-                        <Logout />
+						<Logout />
 					</div>
 					<Messages />
 					<ChatInput handleSendMsg={handleSendMsg} />
