@@ -9,6 +9,8 @@
 
 :root{
     --background-color: #150E56;
+    --chat-bubble-sent: #150E56;
+    --chat-bubble-received: #370e56;
     --primary-text-color: white;
     --form-background-color: #2e121d; 
     --secondary-color: #7B113A;

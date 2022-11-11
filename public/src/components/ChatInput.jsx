@@ -55,7 +55,6 @@ const Container = styled.div`
 	grid-template-columns: 5% 95%;
 	background-color: var(--form-background-color);
 	padding: 0 2rem;
-	margin-bottom: 0.5rem;
 	@media screen and (min-width: 720px) and (max-width: 1080px) {
 		padding: 0 1rem;
 		gap: 1rem;
@@ -109,7 +108,6 @@ const Container = styled.div`
 		background-color: #ffffff34;
 		input {
 			width: 100%;
-			height: 60%;
 			background-color: transparent;
 			color: var(--primary-text-color);
 			border: none;
