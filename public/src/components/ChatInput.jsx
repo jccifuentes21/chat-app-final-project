@@ -123,6 +123,7 @@ const Container = styled.div`
 			}
 		}
 		button {
+			cursor: pointer;
 			padding: 0.2rem 1.3rem;
 			border-radius: 2rem;
 			display: flex;
