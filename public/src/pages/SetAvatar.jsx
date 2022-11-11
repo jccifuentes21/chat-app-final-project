@@ -24,6 +24,19 @@ export default function SetAvatar() {
   };
 
   useEffect(() => {
+    const getAvatars = async () => {
+      const data = [];
+      for (let i = 0; i < 5; i++) {
+        const image = await axios.get(
+          `${api}/${Math.round(Math.random() * 1000)}.svg`
+        );
+        const buffer = new Buffer(image.data);
+        data.push(buffer.toString("base64"));
+      }
+      setAvatars(data);
+      setIsLoading(false);
+    };
+
     const validateUserExists = async () => {
       if (!localStorage.getItem("chat-app-user")) {
         navigate("/login");
@@ -34,6 +47,7 @@ export default function SetAvatar() {
       }
     };
 
+    getAvatars();
     validateUserExists();
   }, []);
 
@@ -59,22 +73,6 @@ export default function SetAvatar() {
       }
     }
   };
-
-  useEffect(() => {
-    const getAvatars = async () => {
-      const data = [];
-      for (let i = 0; i < 5; i++) {
-        const image = await axios.get(
-          `${api}/${Math.round(Math.random() * 1000)}.svg`
-        );
-        const buffer = new Buffer(image.data);
-        data.push(buffer.toString("base64"));
-      }
-      setAvatars(data);
-      setIsLoading(false);
-    };
-    getAvatars();
-  }, []);
 
   return (
     <>

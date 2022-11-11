@@ -5,56 +5,57 @@ import ChatInput from "./ChatInput";
 import Messages from "./Messages";
 
 export default function ChatContainer({ currentChat }) {
-	const handleSendMsg = async (msg) => {};
+  const handleSendMsg = async (msg) => {};
 
-	return (
-		<>
-			{currentChat && (
-				<Container>
-					<div className="chat-header">
-						<div className="user-details">
-							<div className="avatar"></div>
-							<div className="username">
-								<img
-									src={`data:image/svg+xml;base64,${currentChat.avatarImage}`}
-									alt="avatar"
-								/>
-								<h4>{currentChat.username}</h4>
-							</div>
-						</div>
-						<Logout />
-					</div>
-					<Messages />
-					<ChatInput handleSendMsg={handleSendMsg} />
-				</Container>
-			)}
-		</>
-	);
+  return (
+    <>
+      {currentChat && (
+        <Container>
+          <div className="chat-header">
+            <div className="user-details">
+              <div className="avatar">
+                <img
+                  src={`data:image/svg+xml;base64,${currentChat.avatarImage}`}
+                  alt="avatar"
+                />
+              </div>
+              <div className="username">
+                <h4>{currentChat.username}</h4>
+              </div>
+            </div>
+            <Logout />
+          </div>
+          <Messages />
+          <ChatInput handleSendMsg={handleSendMsg} />
+        </Container>
+      )}
+    </>
+  );
 }
 
 const Container = styled.div`
-padding-top: 1rem;
-.chat-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 2rem;
-  height: 5rem;
-  .user-details {
+  padding-top: 1rem;
+	padding-bottom: 1rem;
+  .chat-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 1rem;
-    .avatar {
-      img {
-    	 height: 3rem;
-		 w
+    padding: 0 2rem;
+    height: 5rem;
+    .user-details {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      .avatar {
+        img {
+          height: 3rem;
+        }
       }
-    }
-    .username {
-      h4 {
-        color: white;
+      .username {
+        h4 {
+          color: white;
+        }
       }
     }
   }
-}
 `;

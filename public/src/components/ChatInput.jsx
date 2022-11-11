@@ -55,6 +55,7 @@ const Container = styled.div`
 	grid-template-columns: 5% 95%;
 	background-color: var(--form-background-color);
 	padding: 0 2rem;
+	margin-bottom: 0.5rem;
 	@media screen and (min-width: 720px) and (max-width: 1080px) {
 		padding: 0 1rem;
 		gap: 1rem;

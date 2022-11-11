@@ -124,6 +124,7 @@ const Container = styled.div`
 		}
 	}
 	.current-user {
+		margin-right: 0.25rem;
 		background-color: var(--form-background-color);
 		display: flex;
 		justify-content: center;
