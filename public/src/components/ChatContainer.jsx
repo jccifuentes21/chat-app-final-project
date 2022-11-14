@@ -1,12 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Logout from "./Logout";
 import ChatInput from "./ChatInput";
 import axios from "axios";
 import { sendMessageRoute, getMessagesRoute } from "../utils/APIRoutes";
+import { v4 as uuidv4 } from "uuid";
 
-export default function ChatContainer({ currentChat, currentUser }) {
+export default function ChatContainer({ currentChat, currentUser, socket }) {
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [incomingMessage, setIncomingMessage] = useState(null);
+  const scrollRef = useRef();
+
+  const handleEmojiPickerHideShow = () => {
+    setShowEmojiPicker(!showEmojiPicker);
+  };
+
+  const hideEmojiPicker = () => {
+    setShowEmojiPicker(false);
+  };
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -17,10 +29,27 @@ export default function ChatContainer({ currentChat, currentUser }) {
         });
         setMessages(response.data);
       }
-
     };
     fetchMessages();
   }, [currentChat]);
+
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("receive-message", (msg) => {
+        setIncomingMessage({ fromSelf: false, message: msg });
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    incomingMessage && setMessages((prev) => [...prev, incomingMessage]);
+  }, [incomingMessage]);
 
   const handleSendMsg = async (msg) => {
     await axios.post(sendMessageRoute, {
@@ -28,6 +57,19 @@ export default function ChatContainer({ currentChat, currentUser }) {
       to: currentChat._id,
       message: msg,
     });
+
+    socket.current.emit("send-msg", {
+      to: currentChat._id,
+      from: currentUser._id,
+      message: msg,
+    });
+
+    const msgs = [...messages];
+    msgs.push({
+      fromSelf: true,
+      message: msg,
+    });
+    setMessages(msgs);
   };
 
   return (
@@ -48,23 +90,29 @@ export default function ChatContainer({ currentChat, currentUser }) {
             </div>
             <Logout />
           </div>
-          <div className="chat-messages">
+          <div onClick={hideEmojiPicker} className="chat-messages">
             {messages.map((message) => {
               return (
-                  <div
-                    className={`message ${
-                      message.fromSelf ? "sent" : "received"
-                    }`}
-                    key={message.id}
-                  >
-                    <div className="content">
-                      <p >{message.message}</p>
-                    </div>
+                <div
+                  ref={scrollRef}
+                  className={`message ${
+                    message.fromSelf ? "sent" : "received"
+                  }`}
+                  key={uuidv4()}
+                >
+                  <div className="content">
+                    <p>{message.message}</p>
                   </div>
+                </div>
               );
             })}
           </div>
-          <ChatInput handleSendMsg={handleSendMsg} />
+          <ChatInput
+            handleSendMsg={handleSendMsg}
+            showEmojiPicker={showEmojiPicker}
+            handleEmojiPickerHideShow={handleEmojiPickerHideShow}
+            hideEmojiPicker={hideEmojiPicker}
+          />
         </Container>
       )}
     </>
@@ -107,29 +155,28 @@ const Container = styled.div`
     flex-direction: column;
     gap: 1rem;
     overflow: auto;
-    .message{
+    .message {
       display: flex;
       align-items: center;
-      .content{
+      .content {
         max-width: 40%;
         overflow-wrap: break-word;
         padding: 1rem;
         font-size: 1.1rem;
         border-radius: 1rem;
         color: var(--primary-text-color);
-
       }
     }
   }
-  .sent{
+  .sent {
     justify-content: flex-end;
-    .content{
+    .content {
       background-color: var(--chat-bubble-sent);
     }
   }
-  .received{
+  .received {
     justify-content: flex-start;
-    .content{
+    .content {
       background-color: var(--chat-bubble-received);
     }
   }
