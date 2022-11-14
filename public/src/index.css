@@ -8,12 +8,14 @@
 }
 
 :root{
-    --background-color: #131324;
+    --background-color: #150E56;
+    --chat-bubble-sent: #150E56;
+    --chat-bubble-received: #370e56;
     --primary-text-color: white;
-    --form-background-color: black; 
-    --secondary-color: #4e0eff;
-    --bg-variant-color: #997af0;
-    --bg-variant-color-hover: #4e0eff;
+    --form-background-color: #2e121d; 
+    --secondary-color: #7B113A;
+    --bg-variant-color: #1597BB;
+    --bg-variant-color-hover: #7B113A;
 }
 
 
