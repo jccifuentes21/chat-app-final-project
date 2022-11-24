@@ -5,16 +5,7 @@ import { IoMdSend } from "react-icons/io";
 import { BsEmojiSmileFill } from "react-icons/bs";
 
 export default function ChatInput({ handleSendMsg, showEmojiPicker, handleEmojiPickerHideShow, hideEmojiPicker }) {
-	// const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 	const [msg, setMsg] = useState("");
-
-	// const handleEmojiPickerHideShow = () => {
-	// 	setShowEmojiPicker(!showEmojiPicker);
-	// };
-
-	// const hideEmojiPicker = () => {
-	// 	setShowEmojiPicker(false);
-	// }
 
 	const handleEmojiClick = (event, emoji) => {
 		let message = msg;
