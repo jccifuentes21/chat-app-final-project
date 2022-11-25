@@ -35,8 +35,10 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
 
   useEffect(() => {
     if (socket.current) {
-      socket.current.on("receive-message", (msg) => {
-        setIncomingMessage({ fromSelf: false, message: msg });
+      socket.current.on("receive-message", (data) => {
+        if (data.to === currentUser._id && data.from === currentChat._id)  {
+          setIncomingMessage({ fromSelf: false, message: data.message });
+        }
       });
     }
   }, []);
@@ -79,10 +81,7 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
           <div className="chat-header">
             <div className="user-details">
               <div className="avatar">
-                <img
-                  src={`${currentChat.avatarImage}`}
-                  alt="avatar"
-                />
+                <img src={`${currentChat.avatarImage}`} alt="avatar" />
               </div>
               <div className="username">
                 <h4>{currentChat.username}</h4>
@@ -157,7 +156,7 @@ const Container = styled.div`
     overflow: auto;
     &::-webkit-scrollbar {
       width: 0.2rem;
-      &-thumb{
+      &-thumb {
         background-color: var(--secondary-color);
         width: 0.1rem;
         border-radius: 1rem;
