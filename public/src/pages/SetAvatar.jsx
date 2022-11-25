@@ -4,8 +4,11 @@ import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { setAvatarRoute } from "../utils/APIRoutes";
-import { Buffer } from "buffer";
+import {
+  checkLoginRoute,
+  setAvatarRoute,
+  setUserRoute,
+} from "../utils/APIRoutes";
 import loader from "../assets/loader.gif";
 
 export default function SetAvatar() {
@@ -14,6 +17,7 @@ export default function SetAvatar() {
   const [avatars, setAvatars] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedAvatar, setSelectedAvatar] = useState(undefined);
+  const [loggedUser, setLoggedUser] = useState(undefined);
 
   const toastOptions = {
     position: "bottom-right",
@@ -27,22 +31,22 @@ export default function SetAvatar() {
     const getAvatars = async () => {
       const data = [];
       for (let i = 0; i < 5; i++) {
-        const image = await axios.get(
-          `${api}/${Math.round(Math.random() * 1000)}.svg`
-        );
-        const buffer = new Buffer(image.data);
-        data.push(buffer.toString("base64"));
+        const image = `${api}/${Math.round(Math.random() * 1000)}.svg`;
+        data.push(image);
       }
       setAvatars(data);
       setIsLoading(false);
     };
 
     const validateUserExists = async () => {
-      if (!localStorage.getItem("chat-app-user")) {
+      const { data } = await axios.get(checkLoginRoute);
+      console.log(data);
+
+      if (!data.status) {
         navigate("/login");
-      } else if (
-        JSON.parse(localStorage.getItem("chat-app-user")).isAvatarImageSet
-      ) {
+      }
+      setLoggedUser(data.user);
+      if (data.user.isAvatarImageSet) {
         navigate("/");
       }
     };
@@ -55,18 +59,20 @@ export default function SetAvatar() {
     if (selectedAvatar === undefined) {
       toast.error("Please select an avatar.", toastOptions);
     } else {
-      const user = await JSON.parse(localStorage.getItem("chat-app-user"));
-
-      const { data } = await axios.post(`${setAvatarRoute}/${user._id}`, {
+      console.log(loggedUser)
+      const { data } = await axios.post(`${setAvatarRoute}/${loggedUser._id}`, {
         image: avatars[selectedAvatar],
       });
 
-			console.log(data)
+      console.log(data);
 
       if (data.isSet) {
-        user.isAvatarImageSet = true;
-        user.avatarImage = data.image;
-        localStorage.setItem("chat-app-user", JSON.stringify(user));
+        loggedUser.isAvatarImageSet = true;
+        loggedUser.avatarImage = data.image;
+        console.log('requesting to set user')
+        await axios.post(setUserRoute, {
+          user: loggedUser,
+        });
         navigate("/");
       } else {
         toast.error("Error setting avatar. Please try again.", toastOptions);
@@ -95,7 +101,7 @@ export default function SetAvatar() {
                   key={avatar}
                 >
                   <img
-                    src={`data:image/svg+xml;base64,${avatar}`}
+                    src={`${avatar}`}
                     alt="avatar"
                     onClick={() => setSelectedAvatar(index)}
                   />

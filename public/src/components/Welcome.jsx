@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import welcome from "../assets/welcome.gif";
 import Logout from "./Logout";
+import axios from "axios";
+import { checkLoginRoute } from "../utils/APIRoutes";
 
 const Welcome = () => {
 	const [user, setUser] = useState(undefined);
 	useEffect(() => {
 		const getUser = async () => {
-			setUser(await JSON.parse(localStorage.getItem("chat-app-user")));
+			const {data} = await axios.get(checkLoginRoute);
+			setUser(data.user);
 		};
 		getUser();
 	}, []);

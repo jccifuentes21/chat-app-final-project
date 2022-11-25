@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
-import { loginRoute } from "../utils/APIRoutes";
+import axios from "axios";  
+import { loginRoute, checkLoginRoute } from "../utils/APIRoutes";
 
 // import Logo from "../assets/logo.png";
 
@@ -24,9 +24,13 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("chat-app-user")) {
-      navigate("/");
+    const checkLogin = async () => {
+      const { data } = await axios.get(checkLoginRoute);
+      if (data.status === true) {
+        navigate("/");
+      }
     }
+    checkLogin();
   }, []);
 
   const handleSubmit = async (event) => {
@@ -41,7 +45,7 @@ const Login = () => {
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
       } else if (data.status === true) {
-        localStorage.setItem("chat-app-user", JSON.stringify(data.user));
+        console.log("user has logged in")
         navigate("/");
       }
     }

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { allUsersRoute, host } from "../utils/APIRoutes";
+import { allUsersRoute, host, checkLoginRoute } from "../utils/APIRoutes";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
 import ChatContainer from "../components/ChatContainer";
@@ -18,10 +18,11 @@ const Chat = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      if (!localStorage.getItem("chat-app-user")) {
+      const {data} = await axios.get(checkLoginRoute);
+      if (!data.status) {
         navigate("/login");
       } else {
-        setCurrentUser(await JSON.parse(localStorage.getItem("chat-app-user")));
+        setCurrentUser(data.user);
         setIsLoaded(true);
       }
     };
