@@ -23,6 +23,7 @@ module.exports.register = async (req, res, next) => {
     });
 
     delete user.password;
+    req.session.user = user;
     return res.json({ status: true, user });
   } catch (error) {
     next(error);
@@ -44,6 +45,7 @@ module.exports.login = async (req, res, next) => {
     }
 
     delete user.password;
+    req.session.user = user;
     return res.json({ status: true, user });
   } catch (error) {
     next(error);
@@ -82,5 +84,37 @@ module.exports.getAllUsers = async (req, res, next) => {
     return res.json(users);
   } catch (error) {
     next(error);
+  }
+};
+
+module.exports.logout = async (req, res, next) => {
+  try {
+    req.session = null;
+    return res.json({ status: true });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports.checkLogin = async (req, res, next) => {
+  try {
+    if (req.session.user) {
+      return res.json({ status: true, user: req.session.user });
+    }
+    return res.json({ status: false });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports.setUser = async (req, res, next) => {
+  const { user } = req.body;
+  try{
+    if(req.session.user){
+      req.session.user = user;
+      return res.json({status: true});
+    }
+  }catch(error){
+    console.log(error);
   }
 };

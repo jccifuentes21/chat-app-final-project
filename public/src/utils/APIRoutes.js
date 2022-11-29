@@ -1,7 +1,10 @@
 export const host = `http://localhost:${process.env.REACT_APP_PORT}`;
-export const registerRoute = `${host}/api/auth/register`;
-export const loginRoute = `${host}/api/auth/login`;
-export const setAvatarRoute = `${host}/api/auth/setAvatar`;
-export const allUsersRoute = `${host}/api/auth/allUsers`;
-export const sendMessageRoute = `${host}/api/messages/addMessage`;
-export const getMessagesRoute = `${host}/api/messages/getMessages`;
+export const registerRoute = `/api/auth/register`;
+export const loginRoute = `/api/auth/login`;
+export const logoutRoute = `/api/auth/logout`;
+export const setAvatarRoute = `/api/auth/setAvatar`;
+export const allUsersRoute = `/api/auth/allUsers`;
+export const sendMessageRoute = `/api/messages/addMessage`;
+export const getMessagesRoute = `/api/messages/getMessages`;
+export const checkLoginRoute = `/api/auth/checkLogin`;
+export const setUserRoute = `/api/auth/setUser`;

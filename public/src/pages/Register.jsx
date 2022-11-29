@@ -26,9 +26,13 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("chat-app-user")) {
-      navigate("/");
+    const checkLogin = async () => {
+      const { data } = await axios.get("/api/checkLogin");
+      if (data.status === true) {
+        navigate("/");
+      }
     }
+    checkLogin();
   }, []);
 
   const handleSubmit = async (event) => {
@@ -45,7 +49,8 @@ const Register = () => {
         toast.error(data.msg, toastOptions);
       }
       if (data.status === true) {
-        localStorage.setItem("chat-app-user", JSON.stringify(data.user));
+        // await axios.post("/api/login", {
+        // })
         navigate("/");
       }
     }
