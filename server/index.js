@@ -7,18 +7,17 @@ const messageRoutes = require("./routes/messagesRoutes");
 
 const socket = require("socket.io");
 
-
 const app = express();
 require("dotenv").config();
 
-app.use(cookieSession({
+app.use(
+  cookieSession({
     name: "session",
     keys: ["key1", "key2"],
-}))
+  })
+);
 
-app.use(express.urlencoded({ extended: true }));	
-
-
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
 
@@ -49,17 +48,19 @@ const io = socket(server, {
 });
 
 global.onlineUsers = new Map();
+let users = {};
 
 io.on("connection", (socket) => {
-  global.chatSocket = socket;
-  socket.on("add-user", (userId)=>{
+  socket.on("add-user", (userId) => {
+    users[userId] = socket.id;
     onlineUsers.set(userId, socket.id);
-  })
+  });
 
-  socket.on("send-msg", (data)=>{
-    const sendUserSocket = onlineUsers.get(data.to);
-    if(sendUserSocket){
+  socket.on("send-msg", (data) => {
+    // const sendUserSocket = onlineUsers.get(data.to);
+    const sendUserSocket = users[data.to];
+    if (sendUserSocket) {
       socket.to(sendUserSocket).emit("receive-message", data);
     }
-  })
-})
+  });
+});

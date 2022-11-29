@@ -40,7 +40,6 @@ export default function SetAvatar() {
 
     const validateUserExists = async () => {
       const { data } = await axios.get(checkLoginRoute);
-      console.log(data);
 
       if (!data.status) {
         navigate("/login");
@@ -59,17 +58,14 @@ export default function SetAvatar() {
     if (selectedAvatar === undefined) {
       toast.error("Please select an avatar.", toastOptions);
     } else {
-      console.log(loggedUser)
       const { data } = await axios.post(`${setAvatarRoute}/${loggedUser._id}`, {
         image: avatars[selectedAvatar],
       });
 
-      console.log(data);
 
       if (data.isSet) {
         loggedUser.isAvatarImageSet = true;
         loggedUser.avatarImage = data.image;
-        console.log('requesting to set user')
         await axios.post(setUserRoute, {
           user: loggedUser,
         });

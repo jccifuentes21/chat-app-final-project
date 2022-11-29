@@ -5,12 +5,21 @@ import ChatInput from "./ChatInput";
 import axios from "axios";
 import { sendMessageRoute, getMessagesRoute } from "../utils/APIRoutes";
 import { v4 as uuidv4 } from "uuid";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ChatContainer({ currentChat, currentUser, socket }) {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [messages, setMessages] = useState([]);
-  const [incomingMessage, setIncomingMessage] = useState(null);
   const scrollRef = useRef();
+
+  const toastOptions = {
+    position: "bottom-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
 
   const handleEmojiPickerHideShow = () => {
     setShowEmojiPicker(!showEmojiPicker);
@@ -30,28 +39,34 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
         setMessages(response.data);
       }
     };
-    fetchMessages();
-  }, [currentChat]);
 
-  useEffect(() => {
+    fetchMessages();
+
     if (socket.current) {
       socket.current.on("receive-message", (data) => {
-        if (data.to === currentUser._id && data.from === currentChat._id)  {
-          setIncomingMessage({ fromSelf: false, message: data.message });
+        if (data.to === currentUser._id && data.from === currentChat._id) {
+          setMessages((prev) => [
+            ...prev,
+            { fromSelf: false, message: data.message },
+          ]);
+        } else {
+          toast.info(`New message from ${data.fromUsername}`, toastOptions);
         }
       });
     }
-  }, []);
+
+    return () => {
+      if (socket.current) {
+        socket.current.off("receive-message");
+      }
+    };
+  }, [currentChat]);
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
-
-  useEffect(() => {
-    incomingMessage && setMessages((prev) => [...prev, incomingMessage]);
-  }, [incomingMessage]);
 
   const handleSendMsg = async (msg) => {
     await axios.post(sendMessageRoute, {
@@ -63,15 +78,11 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
     socket.current.emit("send-msg", {
       to: currentChat._id,
       from: currentUser._id,
+      fromUsername: currentUser.username,
       message: msg,
     });
 
-    const msgs = [...messages];
-    msgs.push({
-      fromSelf: true,
-      message: msg,
-    });
-    setMessages(msgs);
+    setMessages((prev) => [...prev, { fromSelf: true, message: msg }]);
   };
 
   return (
@@ -114,6 +125,7 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
           />
         </Container>
       )}
+      <ToastContainer />
     </>
   );
 }

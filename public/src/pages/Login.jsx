@@ -45,7 +45,6 @@ const Login = () => {
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
       } else if (data.status === true) {
-        console.log("user has logged in")
         navigate("/");
       }
     }

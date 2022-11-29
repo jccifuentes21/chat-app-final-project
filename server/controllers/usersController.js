@@ -36,17 +36,14 @@ module.exports.login = async (req, res, next) => {
     const user = await User.findOne({ username });
 
     if (!user) {
-      console.log("User not found");
       return res.json({ msg: "Incorrect username or password", status: false });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      console.log("Password not valid");
       return res.json({ msg: "Incorrect username or password", status: false });
     }
 
-    console.log("User found");
     delete user.password;
     req.session.user = user;
     return res.json({ status: true, user });
@@ -102,7 +99,6 @@ module.exports.logout = async (req, res, next) => {
 module.exports.checkLogin = async (req, res, next) => {
   try {
     if (req.session.user) {
-      console.log(req.session.user)
       return res.json({ status: true, user: req.session.user });
     }
     return res.json({ status: false });
@@ -112,7 +108,6 @@ module.exports.checkLogin = async (req, res, next) => {
 };
 
 module.exports.setUser = async (req, res, next) => {
-  console.log('set user')
   const { user } = req.body;
   try{
     if(req.session.user){
