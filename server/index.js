@@ -53,11 +53,9 @@ let users = {};
 io.on("connection", (socket) => {
   socket.on("add-user", (userId) => {
     users[userId] = socket.id;
-    onlineUsers.set(userId, socket.id);
   });
 
   socket.on("send-msg", (data) => {
-    // const sendUserSocket = onlineUsers.get(data.to);
     const sendUserSocket = users[data.to];
     if (sendUserSocket) {
       socket.to(sendUserSocket).emit("receive-message", data);
