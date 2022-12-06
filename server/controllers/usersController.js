@@ -46,6 +46,7 @@ module.exports.login = async (req, res, next) => {
 
     delete user.password;
     req.session.user = user;
+    console.log(req.session)
     return res.json({ status: true, user });
   } catch (error) {
     next(error);
@@ -98,6 +99,7 @@ module.exports.logout = async (req, res, next) => {
 
 module.exports.checkLogin = async (req, res, next) => {
   try {
+    console.log(req.session)
     if (req.session.user) {
       return res.json({ status: true, user: req.session.user });
     }

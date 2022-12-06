@@ -18,7 +18,7 @@ const Chat = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      const {data} = await axios.get(checkLoginRoute);
+      const {data} = await axios.get(checkLoginRoute, {withCredentials: true, headers: {"Access-Control-Expose-Headers": "*"}});
       if (!data.status) {
         navigate("/login");
       } else {

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";  
+import axios from "axios";
 import { loginRoute, checkLoginRoute } from "../utils/APIRoutes";
 
 // import Logo from "../assets/logo.png";
@@ -25,11 +25,14 @@ const Login = () => {
 
   useEffect(() => {
     const checkLogin = async () => {
-      const { data } = await axios.get(checkLoginRoute);
+      const { data } = await axios.get(checkLoginRoute, {
+        withCredentials: true,
+        headers: { "Access-Control-Expose-Headers": "*" },
+      });
       if (data.status === true) {
         navigate("/");
       }
-    }
+    };
     checkLogin();
   }, []);
 

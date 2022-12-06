@@ -11,12 +11,23 @@ const app = express();
 
 require("dotenv").config();
 
-app.use(cors({ origin: "https://jccifuentes21.github.io", credentials: true }));
+app.use(
+  cors({
+    origin: "https://jccifuentes21.github.io",
+    credentials: true,
+    methods: ["GET", "POST", "DELETE"],
+  })
+);
+
+app.set("trust proxy", 1);
 
 app.use(
   cookieSession({
     name: "session",
     keys: ["key1", "key2"],
+    secure: true,
+    sameSite: "none",
+    domain: "https://jccifuentes21.github.io",
   })
 );
 
