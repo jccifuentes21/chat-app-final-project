@@ -1,5 +1,6 @@
 const express = require("express");
 const cookieSession = require("cookie-session");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes");
 const messageRoutes = require("./routes/messagesRoutes");
@@ -7,7 +8,10 @@ const messageRoutes = require("./routes/messagesRoutes");
 const socket = require("socket.io");
 
 const app = express();
+
 require("dotenv").config();
+
+app.use(cors({ origin: "https://jccifuentes21.github.io", credentials: true }));
 
 app.use(
   cookieSession({

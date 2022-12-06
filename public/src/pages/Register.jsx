@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { registerRoute } from "../utils/APIRoutes";
+import { registerRoute, checkLoginRoute } from "../utils/APIRoutes";
 
 // import Logo from "../assets/logo.png";
 
@@ -27,7 +27,7 @@ const Register = () => {
 
   useEffect(() => {
     const checkLogin = async () => {
-      const { data } = await axios.get("/api/checkLogin");
+      const { data } = await axios.get(checkLoginRoute);
       if (data.status === true) {
         navigate("/");
       }
@@ -49,8 +49,6 @@ const Register = () => {
         toast.error(data.msg, toastOptions);
       }
       if (data.status === true) {
-        // await axios.post("/api/login", {
-        // })
         navigate("/");
       }
     }
