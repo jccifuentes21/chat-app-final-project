@@ -35,6 +35,8 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
         const response = await axios.post(getMessagesRoute, {
           from: currentUser._id,
           to: currentChat._id,
+        }, {
+          withCredentials: true,
         });
         setMessages(response.data);
       }
@@ -73,6 +75,8 @@ export default function ChatContainer({ currentChat, currentUser, socket }) {
       from: currentUser._id,
       to: currentChat._id,
       message: msg,
+    }, {
+      withCredentials: true,
     });
 
     socket.current.emit("send-msg", {

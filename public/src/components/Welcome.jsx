@@ -9,7 +9,7 @@ const Welcome = () => {
 	const [user, setUser] = useState(undefined);
 	useEffect(() => {
 		const getUser = async () => {
-			const {data} = await axios.get(checkLoginRoute);
+			const {data} = await axios.get(checkLoginRoute, {withCredentials: true, headers: {"Access-Control-Expose-Headers": "*"}});
 			setUser(data.user);
 		};
 		getUser();
