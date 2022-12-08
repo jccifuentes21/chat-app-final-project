@@ -39,7 +39,7 @@ export default function SetAvatar() {
     };
 
     const validateUserExists = async () => {
-      const { data } = await axios.get(checkLoginRoute);
+      const { data } = await axios.get(checkLoginRoute, {withCredentials: true});
 
       if (!data.status) {
         navigate("/login");
@@ -60,6 +60,8 @@ export default function SetAvatar() {
     } else {
       const { data } = await axios.post(`${setAvatarRoute}/${loggedUser._id}`, {
         image: avatars[selectedAvatar],
+      }, {
+        withCredentials: true,
       });
 
 
@@ -68,6 +70,8 @@ export default function SetAvatar() {
         loggedUser.avatarImage = data.image;
         await axios.post(setUserRoute, {
           user: loggedUser,
+        }, {
+          withCredentials: true,
         });
         navigate("/");
       } else {

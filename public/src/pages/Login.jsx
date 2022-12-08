@@ -40,10 +40,17 @@ const Login = () => {
     event.preventDefault();
     if (handleValidation()) {
       const { username, password } = values;
-      const { data } = await axios.post(loginRoute, {
-        username,
-        password,
-      });
+      const { data } = await axios.post(
+        loginRoute,
+        {
+          username,
+          password,
+        },
+        {
+          withCredentials: true,
+          headers: { "Access-Control-Expose-Headers": "*" },
+        }
+      );
 
       if (data.status === false) {
         toast.error(data.msg, toastOptions);

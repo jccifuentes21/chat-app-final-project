@@ -27,7 +27,7 @@ const Register = () => {
 
   useEffect(() => {
     const checkLogin = async () => {
-      const { data } = await axios.get(checkLoginRoute);
+      const { data } = await axios.get(checkLoginRoute, {withCredentials: true});
       if (data.status === true) {
         navigate("/");
       }
@@ -43,6 +43,8 @@ const Register = () => {
         username,
         email,
         password,
+      }, {
+        withCredentials: true,
       });
       
       if (data.status === false) {
