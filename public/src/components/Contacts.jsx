@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-// import logo from '../assets/logo.png'
+import Logo from '../assets/logo-no-text.png'
 
 export default function Contacts({ contacts, currentUser, changeChat }) {
 	const [currentUserName, setCurrentUserName] = useState(undefined);
@@ -24,8 +24,8 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
 			{currentUserImage && currentUserImage && (
 				<Container>
 					<div className="brand">
-						{/* <img src={Logo} alt="logo" /> */}
-						<h3>! CHAT !</h3>
+						<img src={Logo} alt="logo" />
+						<h1>SwiftChat</h1>
 					</div>
 					<div className="contacts">
 						{contacts.map((contact, index) => {
@@ -78,9 +78,9 @@ const Container = styled.div`
 		gap: 1rem;
 		justify-content: center;
 		img {
-			height: 2rem;
+			height: 3rem;
 		}
-		h3 {
+		h1 {
 			color: white;
 			text-transform: uppercase;
 		}
